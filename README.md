@@ -4,7 +4,7 @@ Another year, another attempt at this fun thing!
 
 Language: [Rust](https://www.rust-lang.org/)
 
-## Running Code
+## Running Code For Each Day
 
 - Run the code
 
@@ -20,3 +20,10 @@ Language: [Rust](https://www.rust-lang.org/)
   - ```sh
     bacon --all-features --job clippy
     ```
+
+## Tests For Each Day
+
+```sh
+cd day_x
+cargo run --release
+```

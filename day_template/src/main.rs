@@ -1,51 +1,71 @@
+//! Advent of code day
+
+#![allow(unused_imports)]
+#![allow(unused_variables)]
+
 use std::fs;
+use std::fs::File;
+use std::io::prelude::*;
 
 //////////////////////////////////////////////////////////////////////////////
 
-const INPUT_FILEPATH: &str = "inputs/sample_part1.txt";
-
-fn load_input_file() -> Vec<&str> {
-    println!("Loading file: {} ...", INPUT_FILEPATH);
-    let contents = fs::read_to_string(INPUT_FILEPATH).expect("ERROR: Failed to read input file");
-
-    // Divide the lines in file into a vector of strings
-    let input_lines: Vec<&str> = contents.split("\n").collect()
-    input_lines
-
-    // // Print the first line of the input file
-    // for line in &input_lines {
-    //     println!("{}", line);
-    // }
-}
-
-fn part_1() {
-    todo!("part_1")
-}
-
-fn part_2() {
-    todo!("part_2")
+fn load_text_file(filepath: &str) -> String {
+    println!("Loading file: {} ...", filepath);
+    let mut open_file = File::open(filepath).expect("ERROR: Failed opening file");
+    let mut contents = String::new();
+    open_file
+        .read_to_string(&mut contents)
+        .expect("ERROR: Failed to read input file");
+    contents
 }
 
 //////////////////////////////////////////////////////////////////////////////
 
+/// Part 1 Calculations
+fn part_1(input: String) -> i32 {
+    println!("{}", input);
+    11
+}
+
+/// Part 2 Calculations
+fn part_2(input: String) -> i32 {
+    println!("{}", input);
+    22
+}
+
+//////////////////////////////////////////////////////////////////////////////
+
+/// Main
 fn main() {
-    let part_1_input = load_input_file();
-    let part_1 = part_1();
+    let part_1_input = load_text_file("inputs/sample_part1.txt");
+    let part_1_output = part_1(part_1_input);
+    println!("Part 1: {}\n\n", part_1_output);
 
-    let part_2_input = load_input_file();
-    let part_2 = part_2();
+    let part_2_input = load_text_file("inputs/sample_part2.txt");
+    let part_2_output = part_2(part_2_input);
+    println!("Part 1: {}", part_2_output);
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
+//                            TESTS
+//////////////////////////////////////////////////////////////////////////////
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_part_1() {
-        // let expected =
-        // let acutal =
-        // assert_eq!(expected, acutal);
+        let input = load_text_file("inputs/sample_part1.txt");
+        let expected = 11;
+        let actual = part_1(input);
+        assert_eq!(expected, actual);
+    }
+
+    #[test]
+    fn test_part_2() {
+        let input = load_text_file("inputs/sample_part2.txt");
+        let expected = 22;
+        let actual = part_2(input);
+        assert_eq!(expected, actual);
     }
 }
