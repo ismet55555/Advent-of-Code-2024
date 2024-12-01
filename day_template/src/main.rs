@@ -2,6 +2,7 @@
 
 #![allow(unused_imports)]
 #![allow(unused_variables)]
+#![allow(dead_code)]
 
 use anyhow::Result;
 use std::fs;
@@ -12,14 +13,9 @@ use std::io::prelude::*;
 
 fn load_text_file(filepath: &str) -> String {
     println!("Loading file: {} ...", filepath);
-    let mut open_file = File::open(filepath).expect("ERROR: Failed opening file");
-    let mut contents = String::new();
-    open_file
-        .read_to_string(&mut contents)
-        .expect("ERROR: Failed to read input file");
+    let contents: String = fs::read_to_string(filepath).expect("ERROR: Failed to read input file");
     contents
 }
-
 //////////////////////////////////////////////////////////////////////////////
 
 /// Part 1 Calculations
