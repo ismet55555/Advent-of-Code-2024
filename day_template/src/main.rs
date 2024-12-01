@@ -3,6 +3,7 @@
 #![allow(unused_imports)]
 #![allow(unused_variables)]
 
+use anyhow::Result;
 use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
@@ -36,7 +37,7 @@ fn part_2(input: String) -> i32 {
 //////////////////////////////////////////////////////////////////////////////
 
 /// Main
-fn main() {
+fn main() -> Result<()> {
     let part_1_input = load_text_file("inputs/sample_part1.txt");
     let part_1_output = part_1(part_1_input);
     println!("Part 1: {}\n\n", part_1_output);
@@ -44,6 +45,8 @@ fn main() {
     let part_2_input = load_text_file("inputs/sample_part2.txt");
     let part_2_output = part_2(part_2_input);
     println!("Part 1: {}", part_2_output);
+
+    Ok(())
 }
 
 //////////////////////////////////////////////////////////////////////////////
