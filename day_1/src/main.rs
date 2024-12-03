@@ -30,7 +30,7 @@ fn parse_sides(input: &str) -> (Vec<i32>, Vec<i32>) {
             (nums[0], nums[1])
         })
         // .inspect(|x| println!("Value: {:?}", x))
-        .unzip();
+        .unzip(); // Produce two collections
 
     (left_col, right_col)
 }
@@ -63,8 +63,8 @@ fn part_2(input: String) -> i32 {
             .filter(|x| *x == left_number)
             // .inspect(|x| println!("Filter: {:?}", x))
             .count()
-            .try_into()
-            .unwrap();
+            .try_into() // Convert to i32
+            .unwrap(); // Result from try_into()
         left_similarity_vec.push(*left_number * mulitplier);
     }
     let result: i32 = left_similarity_vec.iter().sum();

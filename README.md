@@ -10,20 +10,23 @@ Language: [Rust](https://www.rust-lang.org/)
 
   - ```sh
     cd day_x
-    cargo run --release
-    ```
-
-- To actively monitor code issues use `bacon`:
-
-  - Install [`bacon`](https://github.com/Canop/bacon): `cargo install --locked bacon`
-
-  - ```sh
-    bacon --all-features --job clippy
+    cargo run
     ```
 
 ## Tests For Each Day
 
+Tests are based on the sample input provided for each day.
+
 ```sh
 cd day_x
-cargo run --release
+cargo test
+```
+
+## Debugging Code Issues
+
+To actively monitor code issues use [`bacon`](https://github.com/Canop/bacon).
+Install [`bacon`](https://github.com/Canop/bacon): `cargo install --locked bacon`
+
+```sh
+bacon --all-features --job clippy
 ```
