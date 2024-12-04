@@ -40,7 +40,7 @@ fn main() -> Result<()> {
 
     let part_2_input = load_text_file("inputs/sample_part2.txt");
     let part_2_output = part_2(part_2_input);
-    println!("Part 1: {}", part_2_output);
+    println!("Part 2: {}", part_2_output);
 
     Ok(())
 }

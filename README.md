@@ -10,7 +10,7 @@ Language: [Rust](https://www.rust-lang.org/)
 
   - ```sh
     cd day_x
-    cargo run
+    cargo run -q
     ```
 
 ## Tests For Each Day
@@ -19,7 +19,7 @@ Tests are based on the sample input provided for each day.
 
 ```sh
 cd day_x
-cargo test
+cargo test -q
 ```
 
 ## Debugging Code Issues

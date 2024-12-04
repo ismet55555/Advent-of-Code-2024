@@ -5,91 +5,75 @@
 #![allow(dead_code)]
 
 use anyhow::Result;
+use regex::Regex;
 use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
 
 //////////////////////////////////////////////////////////////////////////////
 
-// Read the contents of a line into a String
-// Will still include new lines
 fn load_text_file(filepath: &str) -> String {
     println!("Loading file: {} ...", filepath);
     let contents: String = fs::read_to_string(filepath).expect("ERROR: Failed to read input file");
     contents
 }
 
-fn parse_to_number(input: &str) -> Vec<i32> {
-    let out: Vec<i32> = input
-        .split_whitespace()
-        .map(|n| n.trim().parse().unwrap()) // Parse to a number
-        .collect();
-    out
-}
+fn execute_multipliplication(input: &str) -> i32 {
+    let regex_pattern = r"mul\((\d+),\s*(\d+)\)";
+    let re = Regex::new(regex_pattern).unwrap();
 
-fn are_levels_safe(input: Vec<i32>) -> bool {
-    if input.is_empty() {
-        return false;
+    if let Some(cap) = re.captures(input) {
+        let x: i32 = cap[1].parse().unwrap();
+        let y: i32 = cap[2].parse().unwrap();
+
+        x * y
+    } else {
+        0
     }
-
-    // Get diffs between numbers
-    let diffs: Vec<i32> = input.windows(2).map(|x| x[1] - x[0]).collect();
-
-    // Check no sign change - all positive or all negative
-    if !(diffs.iter().all(|&x| x > 0) || diffs.iter().all(|&x| x < 0)) {
-        return false;
-    }
-
-    // Check level changes are >1 and <4
-    let within_level_change = diffs
-        .iter()
-        .map(|diff| diff.abs())
-        .all(|diff_abs| diff_abs > 0 && diff_abs < 4);
-    if !within_level_change {
-        return false;
-    }
-
-    true
 }
 
 //////////////////////////////////////////////////////////////////////////////
 
 /// Part 1 Calculations
 fn part_1(input: String) -> i32 {
-    let mut safe_count: i32 = 0;
+    let regex_pattern = r"mul\((\d{1,3}),\s*(\d{1,3})\)";
+    let re = Regex::new(regex_pattern).unwrap();
 
-    for (index, line) in input.lines().enumerate() {
-        let level_numbers = parse_to_number(line);
-        if !are_levels_safe(level_numbers) {
-            continue;
-        }
-
-        safe_count += 1;
+    let mut result: i32 = 0;
+    for cap in re.captures_iter(&input) {
+        let x: i32 = cap[1].parse().unwrap();
+        let y: i32 = cap[2].parse().unwrap();
+        result += x * y;
     }
-
-    safe_count
+    result
 }
 
 /// Part 2 Calculations
 fn part_2(input: String) -> i32 {
-    let mut safe_count: i32 = 0;
+    // Collect all instructions
+    let regex_pattern = r"(?:mul\(\d+,\d+\)|don't\(\)|do\(\))";
+    let re = Regex::new(regex_pattern).unwrap();
+    let instructions: Vec<_> = re
+        .find_iter(&input)
+        .map(|m| m.as_str().to_string())
+        .collect();
 
-    for (index, line) in input.lines().enumerate() {
-        let level_numbers = parse_to_number(line);
+    let mut result: i32 = 0;
+    let mut enable_instructions = true;
+    for (index, instruction) in instructions.iter().enumerate() {
+        if instruction.contains("do()") {
+            enable_instructions = true;
+        } else if instruction.contains("don't()") {
+            enable_instructions = false;
+        }
 
-        for index in 0..level_numbers.len() {
-            let mut new_level_numbers = level_numbers.clone();
-            new_level_numbers.remove(index);
-            if !are_levels_safe(new_level_numbers) {
-                continue;
-            } else {
-                safe_count += 1;
-                break;
-            }
+        if enable_instructions {
+            result += execute_multipliplication(instruction);
+            continue;
         }
     }
 
-    safe_count
+    result
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -117,7 +101,7 @@ mod tests {
     #[test]
     fn test_part_1() {
         let input = load_text_file("inputs/sample_part1.txt");
-        let expected = 2;
+        let expected = 161;
         let actual = part_1(input);
         assert_eq!(expected, actual);
     }
@@ -125,7 +109,7 @@ mod tests {
     #[test]
     fn test_part_2() {
         let input = load_text_file("inputs/sample_part2.txt");
-        let expected = 4;
+        let expected = 48;
         let actual = part_2(input);
         assert_eq!(expected, actual);
     }
