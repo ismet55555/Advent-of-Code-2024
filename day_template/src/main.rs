@@ -14,6 +14,7 @@ use std::io::prelude::*;
 fn load_text_file(filepath: &str) -> String {
     println!("Loading file: {} ...", filepath);
     let contents: String = fs::read_to_string(filepath).expect("ERROR: Failed to read input file");
+
     contents
 }
 //////////////////////////////////////////////////////////////////////////////
